@@ -1,5 +1,5 @@
 -- Studio26F Database
-CREATE USER studio26f WITH PASSWORD '${STUDIO26F_DB_PASS}';
+CREATE USER studio26f WITH PASSWORD :'studio26f_db_pass';
 CREATE DATABASE studio26f OWNER studio26f;
 
 \c studio26f;
@@ -20,7 +20,7 @@ CREATE TABLE player (
 ALTER TABLE player OWNER TO studio26f;
 
 -- Techrater Database
-CREATE USER techrater WITH PASSWORD '${TECHRATER_DB_PASS}';
+CREATE USER techrater WITH PASSWORD :'techrater_db_pass';
 CREATE DATABASE techrater OWNER techrater;
 
 \c techrater;

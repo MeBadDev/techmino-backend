@@ -20,7 +20,11 @@ RUN cmake --build build --target Techrater -j$(nproc)
 
 FROM debian:trixie-slim AS runner
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libpq5 curl && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential g++ cmake ninja-build git curl zip unzip tar pkg-config ca-certificates libpq-dev \
+    autoconf automake libtool \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/techrater
 COPY --from=builder /app/build/Techrater ./Techrater

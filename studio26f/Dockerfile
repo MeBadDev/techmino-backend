@@ -42,11 +42,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     libpq5 \
+    gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/studio26f
 COPY --from=builder /app/build/Studio26F ./Studio26F
 COPY --from=builder /app/verifyEmail.html ./verifyEmail.html
+COPY config.json.template ./config.json.template
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 8080 8443
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["./Studio26F"]

@@ -39,10 +39,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     libpq5 \
+    gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/techrater
 COPY --from=builder /app/build/Techrater ./Techrater
+COPY config.json.template ./config.json.template
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 10026
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["./Techrater"]

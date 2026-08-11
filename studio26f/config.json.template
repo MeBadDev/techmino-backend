@@ -13,7 +13,7 @@
       "port": 5432,
       "dbname": "studio26f",
       "user": "studio26f",
-      "passwd": "$ENV{STUDIO26F_DB_PASS}",
+      "passwd": "${STUDIO26F_DB_PASS}",
       "is_fast": false,
       "number_of_connections": 4,
       "timeout": -1.0
@@ -51,12 +51,12 @@
       "name": "studio26f::plugins::EmailManager",
       "dependencies": [],
       "config": {
-        "server": "$ENV{SMTP_SERVER}",
+        "server": "${SMTP_SERVER}",
         "port": 587,
-        "account": "$ENV{SMTP_ACCOUNT}",
-        "password": "$ENV{SMTP_PASSWORD}",
-        "senderEmail": "$ENV{SMTP_SENDER_EMAIL}",
-        "senderName": "$ENV{SMTP_SENDER_NAME}"
+        "account": "${SMTP_ACCOUNT}",
+        "password": "${SMTP_PASSWORD}",
+        "senderEmail": "${SMTP_SENDER_EMAIL}",
+        "senderName": "${SMTP_SENDER_NAME}"
       }
     },
     {
@@ -83,12 +83,12 @@
           }
         },
         "oauth": {
-          "secret": "$ENV{STUDIO26F_OAUTH_SECRET}",
+          "secret": "${STUDIO26F_OAUTH_SECRET}",
           "products": {
             "techmino": {
               "host": "http://techrater:10026",
               "path": "/techmino/api/v1",
-              "secret": "$ENV{TECHRATER_ADMIN_TOKEN}"
+              "secret": "${TECHRATER_ADMIN_TOKEN}"
             }
           }
         }

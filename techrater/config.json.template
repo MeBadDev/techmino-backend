@@ -2,7 +2,7 @@
     "listeners": [ { "address": "0.0.0.0", "port": 10026, "https": false } ],
     "db_clients": [ {
         "rdbms": "postgresql", "host": "postgres", "port": 5432,
-        "dbname": "techrater", "user": "techrater", "passwd": "$ENV{TECHRATER_DB_PASS}",
+        "dbname": "techrater", "user": "techrater", "passwd": "${TECHRATER_DB_PASS}",
         "is_fast": false, "number_of_connections": 4, "timeout": -1.0
     } ],
     "redis_clients": [ {
@@ -23,7 +23,7 @@
         { "name": "techmino::plugins::HandlerManager",    "dependencies": [], "config": {} },
         { "name": "techmino::plugins::NoticeManager", "dependencies": [], "config": { "fallbackLanguage": "en_us" } },
         { "name": "techmino::plugins::PlayerManager", "dependencies": [], "config": {
-            "auth":       { "token": "$ENV{TECHRATER_ADMIN_TOKEN}" },
+            "auth":       { "token": "${TECHRATER_ADMIN_TOKEN}" },
             "expirations": { "access": 30, "refresh": 1440 },
             "tokenBucket": {
                 "ip":     { "interval": 60,  "maxCount": 100 },

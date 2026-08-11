@@ -89,6 +89,16 @@
               "host": "http://techrater:10026",
               "path": "/techmino/api/v1",
               "secret": "${TECHRATER_ADMIN_TOKEN}"
+            },
+            "quatrack": {
+              "host": "http://localhost:0",
+              "path": "/unused",
+              "secret": "unused"
+            },
+            "techminoGalaxy": {
+              "host": "http://localhost:0",
+              "path": "/unused",
+              "secret": "unused"
             }
           }
         }

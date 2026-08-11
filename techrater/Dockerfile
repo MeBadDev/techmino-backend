@@ -4,7 +4,21 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential g++ cmake ninja-build git curl zip unzip tar pkg-config ca-certificates libpq-dev \
+    autoconf \
+    automake \
+    build-essential \
+    ca-certificates \
+    cmake \
+    curl \
+    g++ \
+    git \
+    libtool \
+    m4 \
+    ninja-build \
+    pkg-config \
+    tar \
+    unzip \
+    zip \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -22,8 +36,9 @@ FROM debian:trixie-slim AS runner
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential g++ cmake ninja-build git curl zip unzip tar pkg-config ca-certificates libpq-dev \
-    autoconf automake libtool \
+    ca-certificates \
+    curl \
+    libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/techrater

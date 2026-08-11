@@ -1,0 +1,37 @@
+{
+    "listeners": [ { "address": "0.0.0.0", "port": 10026, "https": false } ],
+    "db_clients": [ {
+        "rdbms": "postgresql", "host": "postgres", "port": 5432,
+        "dbname": "techrater", "user": "techrater", "passwd": "$ENV{TECHRATER_DB_PASS}",
+        "is_fast": false, "number_of_connections": 4, "timeout": -1.0
+    } ],
+    "redis_clients": [ {
+        "host": "redis", "port": 6379, "passwd": "", "db": 0,
+        "is_fast": false, "number_of_connections": 4, "timeout": -1.0
+    } ],
+    "app": {
+        "number_of_threads": 2,
+        "enable_session": false,
+        "document_root": "./",
+        "max_connections": 100000,
+        "log": { "logfile_base_name": "", "log_level": "INFO" },
+        "client_max_websocket_message_size": "128K"
+    },
+    "plugins": [
+        { "name": "techmino::plugins::Configurator",   "dependencies": [], "config": { "block": { "enable": false, "whiteList": [] } } },
+        { "name": "techmino::plugins::ConnectionManager", "dependencies": [], "config": {} },
+        { "name": "techmino::plugins::HandlerManager",    "dependencies": [], "config": {} },
+        { "name": "techmino::plugins::NoticeManager", "dependencies": [], "config": { "fallbackLanguage": "en_us" } },
+        { "name": "techmino::plugins::PlayerManager", "dependencies": [], "config": {
+            "auth":       { "token": "$ENV{TECHRATER_ADMIN_TOKEN}" },
+            "expirations": { "access": 30, "refresh": 1440 },
+            "tokenBucket": {
+                "ip":     { "interval": 60,  "maxCount": 100 },
+                "login":  { "interval": 60,  "maxCount": 20 },
+                "verify": { "interval": 300, "maxCount": 5 }
+            }
+          } },
+        { "name": "techmino::plugins::RoomManager", "dependencies": [], "config": {} }
+    ],
+    "custom_config": {}
+}

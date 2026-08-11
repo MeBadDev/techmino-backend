@@ -1,0 +1,68 @@
+services:
+  studio26f:
+    build:
+      context: ./studio26f
+      dockerfile: Dockerfile
+    container_name: studio26f
+    restart: unless-stopped
+    environment:
+      - STUDIO26F_DB_PASS
+      - SMTP_PASSWORD
+      - STUDIO26F_OAUTH_SECRET
+      - TECHRATER_ADMIN_TOKEN
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./studio26f/config.json:/opt/studio26f/config.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      techrater:
+        condition: service_started
+
+  techrater:
+    build:
+      context: ./techrater
+      dockerfile: Dockerfile
+    container_name: techrater
+    restart: unless-stopped
+    environment:
+      - TECHRATER_DB_PASS
+      - TECHRATER_ADMIN_TOKEN
+    ports:
+      - "10026:10026"
+    volumes:
+      - ./techrater/config.json:/opt/techrater/config.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: techmino-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: techmino-redis
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:

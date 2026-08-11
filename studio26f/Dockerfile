@@ -23,7 +23,15 @@ RUN cmake --build build --target Studio26F -j$(nproc)
 
 FROM debian:trixie-slim AS runner
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libpq5 curl && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    libpq5 \
+    build-essential \
+    g++ \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/studio26f
 COPY --from=builder /app/build/Studio26F ./Studio26F

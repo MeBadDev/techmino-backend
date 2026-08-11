@@ -1,45 +1,99 @@
 {
-    "listeners": [ { "address": "0.0.0.0", "port": 8080, "https": false } ],
-    "db_clients": [ {
-        "rdbms": "postgresql", "host": "postgres", "port": 5432,
-        "dbname": "studio26f", "user": "studio26f", "passwd": "$ENV{STUDIO26F_DB_PASS}",
-        "is_fast": false, "number_of_connections": 4, "timeout": -1.0
-    } ],
-    "redis_clients": [ {
-        "host": "redis", "port": 6379, "passwd": "", "db": 0,
-        "is_fast": false, "number_of_connections": 4, "timeout": -1.0
-    } ],
-    "app": {
-        "number_of_threads": 2,
-        "enable_session": false,
-        "document_root": "./",
-        "log": { "logfile_base_name": "", "log_level": "INFO" }
+  "listeners": [
+    {
+      "address": "0.0.0.0",
+      "port": 8080,
+      "https": false
+    }
+  ],
+  "db_clients": [
+    {
+      "rdbms": "postgresql",
+      "host": "postgres",
+      "port": 5432,
+      "dbname": "studio26f",
+      "user": "studio26f",
+      "passwd": "$ENV{STUDIO26F_DB_PASS}",
+      "is_fast": false,
+      "number_of_connections": 4,
+      "timeout": -1.0
+    }
+  ],
+  "redis_clients": [
+    {
+      "host": "redis",
+      "port": 6379,
+      "passwd": "",
+      "db": 0,
+      "is_fast": false,
+      "number_of_connections": 4,
+      "timeout": -1.0
+    }
+  ],
+  "app": {
+    "number_of_threads": 2,
+    "enable_session": false,
+    "document_root": "./",
+    "log": {
+      "logfile_base_name": "",
+      "log_level": "INFO"
+    }
+  },
+  "plugins": [
+    {
+      "name": "studio26f::plugins::Configurator",
+      "dependencies": [],
+      "config": {
+        "cors": true
+      }
     },
-    "plugins": [
-        { "name": "studio26f::plugins::Configurator", "dependencies": [], "config": { "cors": true } },
-        { "name": "studio26f::plugins::EmailManager", "dependencies": [], "config": {
-            "server": "smtp.example.com", "port": 587,
-            "account": "noreply@example.com", "password": "$ENV{SMTP_PASSWORD}",
-            "senderEmail": "noreply@example.com", "senderName": "26F Studio"
-        } },
-        { "name": "studio26f::plugins::PlayerManager", "dependencies": [], "config": {
-            "expirations": { "access": 30, "refresh": 1440, "email": 30 },
-            "tokenBuckets": {
-                "ip":     { "interval": 60,  "maxCount": 100 },
-                "login":  { "interval": 60,  "maxCount": 20 },
-                "verify": { "interval": 300, "maxCount": 5 }
-            },
-            "oauth": {
-                "secret": "$ENV{STUDIO26F_OAUTH_SECRET}",
-                "products": {
-                    "techmino": {
-                        "host": "http://techrater:10026",
-                        "path": "/techmino/api/v1",
-                        "secret": "$ENV{TECHRATER_ADMIN_TOKEN}"
-                    }
-                }
+    {
+      "name": "studio26f::plugins::EmailManager",
+      "dependencies": [],
+      "config": {
+        "server": "$ENV{SMTP_SERVER}",
+        "port": 587,
+        "account": "$ENV{SMTP_ACCOUNT}",
+        "password": "$ENV{SMTP_PASSWORD}",
+        "senderEmail": "$ENV{SMTP_SENDER_EMAIL}",
+        "senderName": "$ENV{SMTP_SENDER_NAME}"
+      }
+    },
+    {
+      "name": "studio26f::plugins::PlayerManager",
+      "dependencies": [],
+      "config": {
+        "expirations": {
+          "access": 30,
+          "refresh": 1440,
+          "email": 30
+        },
+        "tokenBuckets": {
+          "ip": {
+            "interval": 60,
+            "maxCount": 100
+          },
+          "login": {
+            "interval": 60,
+            "maxCount": 20
+          },
+          "verify": {
+            "interval": 300,
+            "maxCount": 5
+          }
+        },
+        "oauth": {
+          "secret": "$ENV{STUDIO26F_OAUTH_SECRET}",
+          "products": {
+            "techmino": {
+              "host": "http://techrater:10026",
+              "path": "/techmino/api/v1",
+              "secret": "$ENV{TECHRATER_ADMIN_TOKEN}"
             }
-        } }
-    ],
-    "custom_config": {}
+          }
+        }
+      }
+    }
+  ],
+  "custom_config": {}
 }
